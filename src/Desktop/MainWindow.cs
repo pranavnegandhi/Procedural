@@ -1,5 +1,4 @@
 ﻿using SkiaSharp;
-using SkiaSharp.Views.Desktop;
 using System;
 using System.Windows.Forms;
 
@@ -15,9 +14,13 @@ namespace Desktop
 
         private readonly AnimatedLines[] _lines;
 
+        private readonly IOutput[] _outputModules = new IOutput[2];
+
         public MainWindow()
         {
             InitializeComponent();
+            _outputModules[0] = new ControlOutput(pictureBox1);
+            _outputModules[1] = new PngOutput();
 
             _lines = new AnimatedLines[]
             {
@@ -49,7 +52,7 @@ namespace Desktop
 
         private void DrawNextFrame()
         {
-            var completed = 0;
+            var completed = 0; // Set a bit for each line object that reaches its end
 
             for (var i = 0; i < _lines.Length; i++)
             {
@@ -58,18 +61,14 @@ namespace Desktop
                 completed |= result << i;
             }
 
+            Array.ForEach(_outputModules, o => o.Write(_surface));
+
             if (completed == 31)
             {
                 _screenTimer.Stop();
                 _startButton.Enabled = true;
 
                 return;
-            }
-
-            using (var image = _surface.Snapshot())
-            {
-                var bitmap = SKBitmap.FromImage(image);
-                pictureBox1.Image = bitmap.ToBitmap();
             }
         }
     }
