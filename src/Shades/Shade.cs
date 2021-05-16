@@ -13,7 +13,6 @@ namespace Notadesigner.Shades
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="color">RGBA color of shade.</param>
         /// <param name="warpSize">How much warp noise is allowed to alter the mark in pixels.</param>
         public Shade(int warpSize = 0)
         {
