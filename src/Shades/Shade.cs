@@ -15,9 +15,8 @@ namespace Notadesigner.Shades
         /// </summary>
         /// <param name="color">RGBA color of shade.</param>
         /// <param name="warpSize">How much warp noise is allowed to alter the mark in pixels.</param>
-        public Shade(SKColor color, int warpSize = 0)
+        public Shade(int warpSize = 0)
         {
-            Color = color;
             WarpNoises[0] = new NoiseField();
             WarpNoises[1] = new NoiseField();
             WarpSize = warpSize;
@@ -36,12 +35,6 @@ namespace Notadesigner.Shades
             canvas.Erase(color);
 
             return canvas;
-        }
-
-        public SKColor Color
-        {
-            get;
-            set;
         }
 
         public NoiseField[] WarpNoises
@@ -73,7 +66,7 @@ namespace Notadesigner.Shades
         public SKColor ApplyTransparency(SKPoint point, SKBitmap bitmap, SKColor color)
         {
             var initialColor = bitmap.GetPixel(Convert.ToInt32(point.X), Convert.ToInt32(point.Y));
-            var alpha = (255.0f - Color.Alpha) / 255.0f;
+            var alpha = (255.0f - color.Alpha) / 255.0f;
             var newRed = (byte)(initialColor.Red + ((color.Red - initialColor.Red) * alpha));
             var newGreen = (byte)(initialColor.Green + ((color.Green - initialColor.Green) * alpha));
             var newBlue = (byte)(initialColor.Blue + ((color.Blue - initialColor.Blue) * alpha));
