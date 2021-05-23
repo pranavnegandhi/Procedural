@@ -59,12 +59,17 @@ namespace Notadesigner.Shades
         /// If transparency settings are applied, appropriately adjusts color.
         /// </summary>
         /// <param name="point">Canvas coordinates.</param>
-        /// <param name="bitmap">Image mark is to be made on.</param>
+        /// <param name="canvas">Image mark is to be made on.</param>
         /// <param name="color">Initial color before transparency has been applied.</param>
         /// <returns>Color in form of RGB.</returns>
-        public SKColor ApplyTransparency(SKPoint point, SKBitmap bitmap, SKColor color)
+        public SKColor ApplyTransparency(SKPoint point, SKBitmap canvas, SKColor color)
         {
-            var initialColor = bitmap.GetPixel(Convert.ToInt32(point.X), Convert.ToInt32(point.Y));
+            var x = Convert.ToInt32(point.X);
+            x = Math.Max(0, Math.Min(canvas.Width - 1, x));
+            var y = Convert.ToInt32(point.Y);
+            y = Math.Max(0, Math.Min(canvas.Height - 1, y));
+
+            var initialColor = canvas.GetPixel(x, y);
             var alpha = (255.0f - color.Alpha) / 255.0f;
             var newRed = (byte)(initialColor.Red + ((color.Red - initialColor.Red) * alpha));
             var newGreen = (byte)(initialColor.Green + ((color.Green - initialColor.Green) * alpha));
@@ -100,14 +105,17 @@ namespace Notadesigner.Shades
                 AdjustPoint(point);
             }
 
-            try
+            color = ApplyTransparency(point, canvas, color);
+
+            var x = Convert.ToInt32(point.X);
+            var y = Convert.ToInt32(point.Y);
+
+            if ((x < 0 || x >= canvas.Width) || (y < 0 || y >= canvas.Height))
             {
-                color = ApplyTransparency(point, canvas, color);
-                canvas.SetPixel(Convert.ToInt32(point.X), Convert.ToInt32(point.Y), color);
+                return;
             }
-            catch
-            {
-            }
+
+            canvas.SetPixel(x, y, color);
         }
 
         /// <summary>
@@ -126,17 +134,19 @@ namespace Notadesigner.Shades
 
             color = ApplyTransparency(point, canvas, color);
 
-            for (var x = 0; x < weight; x++)
+            for (var row = 0; row < weight; row++)
             {
-                for (var y = 0; y < weight; y++)
+                for (var col = 0; col < weight; col++)
                 {
-                    try
+                    var x = Convert.ToInt32(point.X) + col;
+                    var y = Convert.ToInt32(point.Y) + row;
+
+                    if ((x < 0 || x >= canvas.Width) || (y < 0 || y >= canvas.Height))
                     {
-                        canvas.SetPixel(Convert.ToInt32(point.X) + x, Convert.ToInt32(point.Y) + y, color);
+                        continue;
                     }
-                    catch
-                    {
-                    }
+
+                    canvas.SetPixel(x, y, color);
                 }
             }
         }
