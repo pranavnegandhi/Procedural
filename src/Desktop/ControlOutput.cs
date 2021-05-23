@@ -13,13 +13,9 @@ namespace Desktop
             _control = control;
         }
 
-        public void Write(SKSurface surface)
+        public void Write(SKBitmap canvas)
         {
-            using (var image = surface.Snapshot())
-            {
-                var bitmap = SKBitmap.FromImage(image);
-                _control.Image = bitmap.ToBitmap();
-            }
+            _control.Image = canvas.ToBitmap();
         }
     }
 }

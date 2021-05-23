@@ -4,6 +4,6 @@ namespace Desktop
 {
     public interface IOutput
     {
-        void Write(SKSurface surface);
+        void Write(SKBitmap canvas);
     }
 }

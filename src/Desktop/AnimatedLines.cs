@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using Notadesigner.Shades;
+using SkiaSharp;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -6,13 +7,11 @@ namespace Desktop
 {
     public class AnimatedLines
     {
-        private static readonly Random _gen = new Random((int)DateTime.Now.Millisecond);
+        private static readonly Random _gen = new(DateTime.Now.Millisecond);
 
         private readonly SKImageInfo _info;
 
-        private readonly SKSurface _surface;
-
-        private readonly SKCanvas _canvas;
+        private readonly SKBitmap _canvas;
 
         private int _div1;
 
@@ -36,27 +35,19 @@ namespace Desktop
 
         private int _end;
 
-        private SKPaint _ink;
+        private Shade _ink;
 
         private int _index;
 
-        public AnimatedLines(SKImageInfo info, SKSurface surface)
+        public AnimatedLines(SKImageInfo info, SKBitmap canvas)
         {
             _info = info;
-            _surface = surface;
-            _canvas = _surface.Canvas; // _surface.Canvas;
+            _canvas = canvas;
         }
 
         public void Initialize(SKColor color)
         {
-            _ink = new SKPaint()
-            {
-                Color = color,
-                StrokeWidth = 1,
-                StrokeCap = SKStrokeCap.Round,
-                IsAntialias = true,
-                IsStroke = true
-            };
+            _ink = new BlockShade(color);
 
             Reset();
         }
@@ -83,8 +74,6 @@ namespace Desktop
             _start = _gen.Next(0, 9999999);
             _end = _gen.Next(1, 1500);
             _index = 0;
-
-            _canvas.Clear(new SKColor(0x00, 0x00, 0x00));
         }
 
         public int DrawNextFrame()
@@ -98,7 +87,7 @@ namespace Desktop
             _time = _start + _index;
             var p1 = new SKPoint(_info.Width / 2 + GetX(_time / 15, _div1, _mul1, _div2, _mul2), _info.Height / 2 + GetY(_time / 15, _div3, _mul3, _div4, _mul4));
             var p2 = new SKPoint(_info.Width / 2 + GetX(_time / 12, _div1, _mul1, _div2, _mul2), _info.Height / 2 + GetY(_time / 12, _div3, _mul3, _div4, _mul4));
-            _canvas.DrawLine(p1, p2, _ink);
+            _ink.Line(_canvas, p1, p2, _gen.Next(1, 3));
 
             return _index;
         }

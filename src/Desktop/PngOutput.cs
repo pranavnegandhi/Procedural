@@ -1,12 +1,11 @@
 ﻿using SkiaSharp;
 using System.IO;
-using System.Reflection;
 
 namespace Desktop
 {
     public class PngOutput : IOutput
     {
-        private delegate void WriterDelegate(SKSurface surface);
+        private delegate void WriterDelegate(SKBitmap canvas);
 
         private WriterDelegate _writer;
 
@@ -19,12 +18,12 @@ namespace Desktop
             _writer = Prepare;
         }
 
-        public void Write(SKSurface surface)
+        public void Write(SKBitmap canvas)
         {
-            _writer(surface);
+            _writer(canvas);
         }
 
-        private void Prepare(SKSurface surface)
+        private void Prepare(SKBitmap canvas)
         {
             var root = Directory.GetCurrentDirectory();
             _path = Path.Combine(root, "output");
@@ -36,23 +35,19 @@ namespace Desktop
 
             _index = 0;
             _writer = WriteToFile;
-            _writer(surface);
+            _writer(canvas);
         }
 
-        private void WriteToFile(SKSurface surface)
+        private void WriteToFile(SKBitmap canvas)
         {
             _index++;
 
-            using (var image = surface.Snapshot())
-            {
-                var path = Path.Combine(_path, $"frame{_index:0000}.png");
+            using var image = SKImage.FromBitmap(canvas);
+            var path = Path.Combine(_path, $"frame{_index:0000}.png");
 
-                using (var output = File.Create(path))
-                {
-                    var result = image.Encode(SKEncodedImageFormat.Png, 1);
-                    result.SaveTo(output);
-                }
-            }
+            using var output = File.Create(path);
+            var result = image.Encode(SKEncodedImageFormat.Png, 1);
+            result.SaveTo(output);
         }
     }
 }
