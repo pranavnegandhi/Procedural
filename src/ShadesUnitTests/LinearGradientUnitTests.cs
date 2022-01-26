@@ -211,7 +211,6 @@ namespace Notadesigner.Shades.Tests
             data.SaveTo(stream);
         }
 
-        
         [TestCase]
         [Description("The method being tested does not return a value. The result of the graphic operation are saved to disk for manual verification.")]
         public void TriangleTest()
