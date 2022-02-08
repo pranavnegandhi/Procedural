@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using SkiaSharp;
+using System;
 using System.Collections.Generic;
 
 namespace Notadesigner.Shades.Tests
@@ -64,14 +65,15 @@ namespace Notadesigner.Shades.Tests
             var red = 255.0f;
             var green = 128.0f;
             var blue = 18.0f;
-            var expected = new SKColor(255, 128, 18);
-            yield return new TestCaseData(red, green, blue).Returns(expected);
+            var alpha = 128.0f;
+            var expected = new SKColor(Convert.ToByte(red), Convert.ToByte(green), Convert.ToByte(blue), Convert.ToByte(alpha));
+            yield return new TestCaseData(red, green, blue, alpha).Returns(expected);
         }
 
         [TestCaseSource(typeof(ColorUtilitiesTests), nameof(ColorClampFData))]
-        public SKColor ColorClampFTest(float red, float green, float blue)
+        public SKColor ColorClampFTest(float red, float green, float blue, float alpha)
         {
-            return ColorUtilities.ColorClamp(red, green, blue, 0.0f);
+            return ColorUtilities.ColorClamp(red, green, blue, alpha);
         }
     }
 }
