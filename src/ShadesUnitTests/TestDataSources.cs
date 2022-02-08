@@ -10,8 +10,17 @@ namespace Notadesigner.Shades.Tests
         {
             var bitmap = new SKBitmap(1, 1, false);
             bitmap.SetPixel(0, 0, new SKColor(255, 0, 0));
-            var applied = new SKColor(0, 0, 255);
-            var expected = new SKColor(204, 0, 51);
+
+            var applied = new SKColor(0, 0, 255, 128);
+            var expected = new SKColor(127, 0, 128);
+            yield return new TestCaseData(bitmap, applied).Returns(expected);
+
+            applied = new SKColor(0, 0, 255, 77);
+            expected = new SKColor(178, 0, 77);
+            yield return new TestCaseData(bitmap, applied).Returns(expected);
+
+            applied = new SKColor(0, 80, 0, 20);
+            expected = new SKColor(235, 6, 0);
             yield return new TestCaseData(bitmap, applied).Returns(expected);
         }
 

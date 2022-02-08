@@ -69,7 +69,7 @@ namespace Notadesigner.Shades
             y = Math.Max(0, Math.Min(canvas.Height - 1, y));
 
             var initialColor = canvas.GetPixel(x, y);
-            var alpha = (255.0f - color.Alpha) / 255.0f;
+            var alpha = 1.0f * color.Alpha / 255.0f;
             var newRed = (byte)(initialColor.Red + ((color.Red - initialColor.Red) * alpha));
             var newGreen = (byte)(initialColor.Green + ((color.Green - initialColor.Green) * alpha));
             var newBlue = (byte)(initialColor.Blue + ((color.Blue - initialColor.Blue) * alpha));
