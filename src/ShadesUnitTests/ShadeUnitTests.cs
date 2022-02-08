@@ -54,16 +54,6 @@ namespace Notadesigner.Shades.Tests
         {
             var instance = new BlockShade(new SKColor(0, 0, 0, 128));
             var edges = instance.GetCircleEdge(new SKPoint(0, 0), radius);
-            var pixels = instance.PixelsInsideEdgeSlow(edges);
-
-            CollectionAssert.AreEqual(expected, pixels);
-        }
-
-        [TestCaseSource(nameof(PixelsInsideEdgeTestSource))]
-        public void PixelsInsideEdgeFastTest(float radius, IEnumerable<SKPoint> expected)
-        {
-            var instance = new BlockShade(new SKColor(0, 0, 0, 128));
-            var edges = instance.GetCircleEdge(new SKPoint(0, 0), radius);
             var pixels = instance.PixelsInsideEdge(edges);
 
             CollectionAssert.AreEqual(expected, pixels);
