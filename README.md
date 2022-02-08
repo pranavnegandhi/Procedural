@@ -32,7 +32,7 @@ Currently Available Shades:
 * NoiseGradient - A graduated transition based on a noise-generated pattern.
 * SwirlOfShades - A composite shade that combines two or more effects into a single image.
 
-## Introduction
+## About Shades
 
 Shades operates on 2D images. All Shade effects expose methods to draw shapes on an image. When a drawing method is invoked, it iterates through all pixels that are impacted by the operation and sets their colour individually. This can be slow on large images or if the effect is performing several computations before arriving at a colour or positional value.
 
@@ -45,14 +45,29 @@ For example, `BlockShade` is used to generate shapes using a single solid colour
 The following snippet shows how to draw a translucent red point on a 100 pixel wide square white background. This example uses the same syntax that is used in the Python implementation.
 
     var canvas = Shade.Canvas(100, 100, SKColors.White);
-    var instance = new BlockShade(new SKColor(127, 0, 0, 16));
+    var instance = new BlockShade(new SKColor(255, 0, 0, 255));
     instance.Point(canvas, new SKPoint(50, 50));
+
+![image](images/blockshade-point.png)
+
+The example below shows how to draw a triangle with a gradient noise fill on a background of black.
+
+    var canvas = Shade.Canvas(200, 200, SKColors.Black);
+    var instance = new NoiseGradient(new SKColor(200, 200, 200, 200), 0, 100);
+    instance.NoiseFields[0].Scale = 0.02f;
+    instance.NoiseFields[1].Scale = 0.02f;
+    instance.NoiseFields[2].Scale = 0.02f;
+    instance.Triangle(canvas, new SKPoint(100, 50), new SKPoint(150, 150), new SKPoint(50, 150));
+
+![image](images/noisegradient-triangle.png)
 
 This port also offers an alternative syntax that makes the `SKBitmap` instance a subject of the operation, and passes the `Shade` instance as a parameter to the method. This is idiomatic C# syntax that is familiar to programmers who have used traditional .NET libraries such as GDI+.
 
-    var canvas = Shade.Canvas(100, 100, SKColors.White);
-    var instance = new BlockShade(new SKColor(127, 0, 0, 16));
-    canvas.Point(instance, new SKPoint(50, 50));
+    var canvas = Shade.Canvas(320, 200, new SKColor(0, 154, 255));
+    var instance = new BlockShade(new SKColor(255, 255, 0, 255));
+    canvas.Circle(instance, new SKPoint(140, 100), 60.0f);
+
+![image](images/blockshade-circle.png)
 
 ### Saving Results
 
