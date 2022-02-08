@@ -1,7 +1,6 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Notadesigner.Shades
 {
@@ -156,35 +155,56 @@ namespace Notadesigner.Shades
         /// https://en.wikipedia.org/wiki/Point_in_polygon
         /// Vertex correction still needs some perfecting, unusual or particularly angular shapes may cause difficulties.
         /// </summary>
-        /// <param name="edgePixels">An enumerable of coordinates making up one edge of the polygon.</param>
+        /// <param name="edgePixels">A collection of coordinates making up one edge of the polygon.</param>
         /// <returns>A collection of pixels within the edge.</returns>
-        public IEnumerable<SKPoint> PixelsInsideEdge(IEnumerable<SKPoint> edgePixels)
+        public ICollection<SKPoint> PixelsInsideEdge(ICollection<SKPoint> edgePixels)
         {
-            var innerPixels = new List<SKPoint>();
-            // var xs = new SortedSet<float>();
-
-            var xs = edgePixels
-                .Select(p => Convert.ToInt32(p.X))
-                .OrderBy(i => i)
-                .ToHashSet();
-
-            for (var x = xs.Min(); x <= xs.Max(); x++)
+            /// Contains a list of distinct values along the X axis, extracted from edgePixels.
+            /// Each unique value along the X axis corresponds to a list of unique values along
+            /// the Y axis that intersect with the X coordinate.
+            var xs = new SortedDictionary<int, SortedSet<int>>();
+            int minX = int.MaxValue, minY = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
+            foreach (var e in edgePixels)
             {
-                var ys = edgePixels
-                    .Where(p => Convert.ToInt32(p.X) == x)
-                    .Select(p => Convert.ToInt32(p.Y))
-                    .OrderBy(i => i)
-                    .ToHashSet();
+                var ex = Convert.ToInt32(e.X);
+                var ey = Convert.ToInt32(e.Y);
+                maxX = Math.Max(maxX, ex);
+                minX = Math.Min(minX, ex);
+                maxY = Math.Max(maxY, ey);
+                minY = Math.Min(minY, ey);
 
-                ys = ys
-                    .Where(y => !ys.Contains(y - 1))
-                    .ToHashSet();
+                if (xs.TryGetValue(ex, out var points))
+                {
+                    points.Add(ey);
+                }
+                else
+                {
+                    xs[ex] = new SortedSet<int>() { ey };
+                }
+            }
+
+            /// Contains a list of points that make up the inside of the shape formed by the
+            /// bounds of edgePixels.
+            var innerPixels = new List<SKPoint>();
+            for (var x = minX; x <= maxX; x++)
+            {
+                var ys = xs[x];
+
+                /// Find the lowest values along the Y axis, i.e. values
+                /// that make up the lower edge of the shape.
+                var temp = new SortedSet<int>();
+                foreach (var y in ys)
+                {
+                    if (!ys.TryGetValue(y - 1, out var _))
+                    {
+                        temp.Add(y);
+                    }
+                }
 
                 var rayCount = 0;
-
-                for (var y = ys.Min(); y <= ys.Max(); y++)
+                for (var y = temp.Min; y <= temp.Max; y++)
                 {
-                    if (ys.Contains(y))
+                    if (temp.TryGetValue(y, out var _))
                     {
                         rayCount++;
                     }
@@ -207,7 +227,7 @@ namespace Notadesigner.Shades
         /// <param name="point1">Coordinates for first point.</param>
         /// <param name="point2">Coordinates for second point.</param>
         /// <returns>List of points between the two points.</returns>
-        public IEnumerable<SKPoint> PixelsBetweenTwoPoints(SKPoint point1, SKPoint point2)
+        public ICollection<SKPoint> PixelsBetweenTwoPoints(SKPoint point1, SKPoint point2)
         {
             float xStep, yStep, iStop;
             if (Math.Abs(point1.X - point2.X) > Math.Abs(point1.Y - point2.Y))
@@ -268,7 +288,7 @@ namespace Notadesigner.Shades
         /// Fills the image with colour.
         /// </summary>
         /// <param name="canvas">Image to fill the colour on.</param>
-        public void Fill(SKBitmap canvas)
+        public virtual void Fill(SKBitmap canvas)
         {
             var warpSize = WarpSize;
             WarpSize = 0;
@@ -292,12 +312,19 @@ namespace Notadesigner.Shades
         /// </summary>
         /// <param name="points">Coordinates making up the vertexes of the shape.</param>
         /// <returns>Coordinates making up the edge of the shape.</returns>
-        public IEnumerable<SKPoint> GetShapeEdge(IList<SKPoint> points)
+        public ICollection<SKPoint> GetShapeEdge(IList<SKPoint> points)
         {
+            /// Find the closing edge between the start and end points
             var edge = PixelsBetweenTwoPoints(points[points.Count - 1], points[0]);
+
+            /// Find the edges between each point in the shape
             for (var i = 0; i < points.Count - 1; i++)
             {
-                edge = edge.Concat(PixelsBetweenTwoPoints(points[i], points[i + 1]));
+                var singleEdge = PixelsBetweenTwoPoints(points[i], points[i + 1]);
+                foreach (var e in singleEdge)
+                {
+                    edge.Add(e);
+                }
             }
 
             return edge;
@@ -395,7 +422,7 @@ namespace Notadesigner.Shades
         /// <param name="origin">Centre of the circle.</param>
         /// <param name="radius">Radius of the circle.</param>
         /// <returns>Coordinates making up the edge of the circle.</returns>
-        public IEnumerable<SKPoint> GetCircleEdge(SKPoint origin, float radius)
+        public ICollection<SKPoint> GetCircleEdge(SKPoint origin, float radius)
         {
             var edgePixels = new List<SKPoint>();
             var circumference = radius * 2 * Math.PI;
