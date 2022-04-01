@@ -12,7 +12,9 @@ namespace Notadesigner.Effects
 
         private int _radius;
 
-        private readonly ColorParameter _outlineParamter = new();
+        private readonly ColorParameter _lineColorParamter = new();
+
+        private readonly NumericParameter<float> _lineWeightParameter = new();
 
         private BlockShade _outline;
 
@@ -20,7 +22,15 @@ namespace Notadesigner.Effects
         {
             _bitmap = bitmap;
 
-            Parameters = new(_outlineParamter);
+            _lineColorParamter.Value = SKColors.Black;
+            _lineColorParamter.Text = "Color";
+
+            _lineWeightParameter.Value = 0.9f;
+            _lineWeightParameter.MinValue = 0.01f;
+            _lineWeightParameter.MaxValue = 20.0f;
+            _lineWeightParameter.Text = "Weight";
+
+            Parameters = new(_lineWeightParameter, _lineColorParamter);
         }
 
         public override string ToString() => nameof(Circle);
@@ -40,14 +50,14 @@ namespace Notadesigner.Effects
 
         public override void Reset()
         {
-            _outline = new BlockShade(_outlineParamter.Value);
+            _outline = new BlockShade(_lineColorParamter.Value);
             Array.ForEach(_outline.WarpNoises, n => n.Scale = 0.01f);
 
             var fill = new NoiseGradient(new SKColor(60, 60, 60, 255), 0, 100);
             Array.ForEach(fill.NoiseFields, f => f.Scale = 0.001f);
             _bitmap.Fill(fill);
 
-            _lineWeight = 0.9f;
+            _lineWeight = _lineWeightParameter.Value;
             _radius = 1;
         }
     }
