@@ -275,7 +275,7 @@ namespace Notadesigner.Shades
         /// <param name="point1">Coordinates for the start of the line.</param>
         /// <param name="point2">Coordinates for the end of the line.</param>
         /// <param name="weight">Thickness of the line in pixels.</param>
-        public void Line(SKBitmap canvas, SKPoint point1, SKPoint point2, int weight = 2)
+        public virtual void Line(SKBitmap canvas, SKPoint point1, SKPoint point2, int weight = 2)
         {
             var points = PixelsBetweenTwoPoints(point1, point2);
             foreach (var p in points)

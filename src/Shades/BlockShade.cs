@@ -28,5 +28,39 @@ namespace Notadesigner.Shades
         {
             return Color;
         }
+
+        /// <inheritdoc/>
+        public override void Line(SKBitmap canvas, SKPoint point1, SKPoint point2, int weight = 2)
+        {
+            if ((WarpNoises[0].Scale > 0 || WarpNoises[1].Scale > 0) && WarpSize > 0)
+            {
+                base.Line(canvas, point1, point2, weight);
+            }
+
+            var fill = new SKCanvas(canvas);
+            var paint = new SKPaint()
+            {
+                Color = Color,
+                StrokeWidth = weight
+            };
+            var offset = weight >> 1;
+            fill.DrawLine(point1.X - offset, point1.Y - offset, point2.X - offset, point2.Y - offset, paint);
+        }
+
+        /// <inheritdoc/>
+        public override void Fill(SKBitmap canvas)
+        {
+            if ((WarpNoises[0].Scale > 0 || WarpNoises[1].Scale > 0) && WarpSize > 0)
+            {
+                base.Fill(canvas);
+            }
+
+            var fill = new SKCanvas(canvas);
+            var paint = new SKPaint()
+            {
+                Color = Color
+            };
+            fill.DrawRect(0, 0, canvas.Width, canvas.Height, paint);
+        }
     }
 }
