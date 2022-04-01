@@ -23,6 +23,8 @@ namespace Notadesigner.Effects
             Parameters = new(_outlineParamter);
         }
 
+        public override string ToString() => nameof(Circle);
+
         public override void Execute()
         {
             _bitmap.CircleOutline(_outline, new SKPoint(_bitmap.Width / 2, _bitmap.Height / 2), _radius, Convert.ToInt32(_lineWeight));
@@ -41,7 +43,7 @@ namespace Notadesigner.Effects
             _outline = new BlockShade(_outlineParamter.Value);
             Array.ForEach(_outline.WarpNoises, n => n.Scale = 0.01f);
 
-            var fill = new NoiseGradient(new SKColor(60, 60, 60), 0, 100);
+            var fill = new NoiseGradient(new SKColor(60, 60, 60, 255), 0, 100);
             Array.ForEach(fill.NoiseFields, f => f.Scale = 0.001f);
             _bitmap.Fill(fill);
 

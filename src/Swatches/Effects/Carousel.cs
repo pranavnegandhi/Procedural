@@ -143,7 +143,7 @@ namespace Notadesigner.Effects
 
         public override void Reset()
         {
-            var seed = 1648063563; // (int)DateTime.UtcNow.Ticks;
+            var seed = (int)DateTime.UtcNow.Ticks;
             _gen = new Random(seed);
             Trace.TraceInformation($"seed: {seed}");
             _numX = _gen.Next(2, 15);

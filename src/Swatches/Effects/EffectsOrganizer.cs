@@ -20,7 +20,7 @@ namespace Notadesigner.Effects
             _effects.Add(new Carousel(bitmap));
             _effects.Add(new Circle(bitmap));
             _effects.Add(new Grid(bitmap));
-            _effects.Add(new Rhombus(bitmap));
+            _effects.Add(new Trails(bitmap));
             _effects.Sort(new Comparison<IEffect>((a, b) => string.Compare(a.ToString(), b.ToString())));
         }
 
