@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shades", "Shades\Shades.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadesUnitTests", "ShadesUnitTests\ShadesUnitTests.csproj", "{2828E63C-69AE-45A2-8853-B9ABF3F7648C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swatches", "Swatches\Swatches.csproj", "{AD17C8DC-226C-4597-AF32-2079824DF9E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2828E63C-69AE-45A2-8853-B9ABF3F7648C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2828E63C-69AE-45A2-8853-B9ABF3F7648C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2828E63C-69AE-45A2-8853-B9ABF3F7648C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD17C8DC-226C-4597-AF32-2079824DF9E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD17C8DC-226C-4597-AF32-2079824DF9E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD17C8DC-226C-4597-AF32-2079824DF9E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD17C8DC-226C-4597-AF32-2079824DF9E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
