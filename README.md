@@ -21,7 +21,7 @@ https://github.com/benrutter/house-of-left/
 
 https://www.instagram.com/houseofleft/
 
-# AboutSwatches
+# Swatches
 
 Swatches is a playground to iterate on visual effects created using the Shades library. It's fun to tweak parameters for visualisations and immediately see its effect on the output. Swatches offers a simple framework to define such parameters and wire them to automatically generated user interface controls.
 
