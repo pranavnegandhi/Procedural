@@ -21,6 +21,14 @@ https://github.com/benrutter/house-of-left/
 
 https://www.instagram.com/houseofleft/
 
+# AboutSwatches
+
+Swatches is a playground to iterate on visual effects created using the Shades library. It's fun to tweak parameters for visualisations and immediately see its effect on the output. Swatches offers a simple framework to define such parameters and wire them to automatically generated user interface controls.
+
+![image](images/screenshot.png)
+
+The framework also offers the capability for rendering the effects to the user interface as well as saving the output to file. A timer-based frame rendering mechanism makes it easy to render animated effects on the UI thread without blocking.
+
 # Shades
 
 Shades has been originally written by Ben Rutter as a Python module. He utilises the library for creating generative 2D art. The Shades library in this repository is a C# port of the project. I have maintained API compatibility for a fairly large extent. A significant deviation from the original library is the use of SkiaSharp as the underlying graphic library in place of Pillow. Some classes are yet to be ported.
