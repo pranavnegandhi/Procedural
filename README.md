@@ -29,6 +29,16 @@ Swatches is a playground to iterate on visual effects created using the Shades l
 
 The framework also offers the capability for rendering the effects to the user interface as well as saving the output to file. A timer-based frame rendering mechanism makes it easy to render animated effects on the UI thread without blocking.
 
+## Demos
+
+Pre-rendered images of some of the effects from the repository are linked below.
+
+* [Carousel](images/effects/carousel.gif)
+* [Circle](images/effects/circle.gif)
+* [Grid - Bamboo](images/effects/grid-bamboo.png) and [Grid - Fields](images/effects/grid-fields.png)
+* [Rising Sun](images/effects/rising-sun.gif)
+* [Trails Animation](images/effects/trails.gif)  and [Last Frame](images/effects/trails.png)
+
 # Shades
 
 Shades has been originally written by Ben Rutter as a Python module. He utilises the library for creating generative 2D art. The Shades library in this repository is a C# port of the project. I have maintained API compatibility for a fairly large extent. A significant deviation from the original library is the use of SkiaSharp as the underlying graphic library in place of Pillow. Some classes are yet to be ported.
