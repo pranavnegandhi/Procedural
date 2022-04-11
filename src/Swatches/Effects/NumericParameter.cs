@@ -24,7 +24,7 @@ namespace Notadesigner.Effects
 
             set
             {
-                if (_value.CompareTo(_maxValue) > 0 || _value.CompareTo(_minValue) < 0)
+                if (value.CompareTo(_maxValue) > 0 || value.CompareTo(_minValue) < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(Value));
                 }

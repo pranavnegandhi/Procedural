@@ -25,9 +25,9 @@ namespace Notadesigner.Effects
             _lineColorParamter.Value = SKColors.Black;
             _lineColorParamter.Text = "Color";
 
-            _lineWeightParameter.Value = 0.9f;
             _lineWeightParameter.MinValue = 0.01f;
             _lineWeightParameter.MaxValue = 20.0f;
+            _lineWeightParameter.Value = 0.9f;
             _lineWeightParameter.Text = "Weight";
 
             Parameters = new(_lineWeightParameter, _lineColorParamter);
