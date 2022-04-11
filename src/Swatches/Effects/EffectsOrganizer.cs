@@ -21,6 +21,7 @@ namespace Notadesigner.Effects
             _effects.Add(new Circle(bitmap));
             _effects.Add(new Grid(bitmap));
             _effects.Add(new Trails(bitmap));
+            _effects.Add(new Fire(bitmap));
             _effects.Sort(new Comparison<IEffect>((a, b) => string.Compare(a.ToString(), b.ToString())));
         }
 
