@@ -35,8 +35,9 @@ Pre-rendered images of some of the effects from the repository are linked below.
 
 * [Carousel](images/effects/carousel.gif)
 * [Circle](images/effects/circle.gif)
+* [Fire](images/effects/fire.gif)
 * [Grid - Bamboo](images/effects/grid-bamboo.png) and [Grid - Fields](images/effects/grid-fields.png)
-* [Rising Sun](images/effects/rising-sun.png)
+* [Rising Sun](images/effects/midday-sun.png)
 * [Trails Animation](images/effects/trails.gif)  and [Last Frame](images/effects/trails.png)
 
 # Shades
