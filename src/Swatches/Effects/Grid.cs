@@ -16,16 +16,11 @@ namespace Notadesigner.Effects
 
         private static readonly BlockShade[] Inks = new BlockShade[]
         {
-            new BlockShade(new SKColor(252, 247, 67, 255)),
-            new BlockShade(new SKColor(74,140,167, 255)),
-            new BlockShade(new SKColor(109,181,197, 255)),
-            new BlockShade(new SKColor(109,181,197, 255)),
-            new BlockShade(new SKColor(0,155,202, 255)),
-            new BlockShade(new SKColor(0,155,202, 255)),
-            new BlockShade(new SKColor(0,155,202, 255)),
-            new BlockShade(new SKColor(230,243,247, 255)),
-            new BlockShade(new SKColor(17,92,112, 255)),
-            new BlockShade(new SKColor(17,92,112, 255))
+            new BlockShade(new SKColor(0xFF4EB314)),
+            new BlockShade(new SKColor(0xFFB5BAB2)),
+            new BlockShade(new SKColor(0xFF46A112)),
+            new BlockShade(new SKColor(0xFF2D3628)),
+            new BlockShade(new SKColor(0xFF2F6B0C))
         };
 
         public Grid(SKBitmap bitmap)
